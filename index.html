@@ -1,0 +1,2920 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<title>Curtain Controller – SMART GREENHOUSE SYSTEM</title>
+
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0b1220;
+  --panel:#121d2e;
+  --panel2:#172438;
+  --line:#26364d;
+  --text:#eef5ff;
+  --muted:#91a4bd;
+  --blue:#38bdf8;
+  --green:#22c55e;
+  --red:#ef4444;
+  --amber:#f59e0b;
+  --shadow:0 18px 45px rgba(0,0,0,.25);
+  --field:#0e1929;
+  --nav:rgba(11,18,32,.95);
+}
+
+html[data-theme="light"]{
+  color-scheme:light;
+  --bg:#edf3f9;
+  --panel:#ffffff;
+  --panel2:#f4f8fc;
+  --line:#d5e0ec;
+  --text:#142238;
+  --muted:#5e7189;
+  --blue:#0284c7;
+  --green:#15803d;
+  --red:#dc2626;
+  --amber:#b45309;
+  --shadow:0 12px 30px rgba(30,55,80,.10);
+  --field:#f2f6fa;
+  --nav:rgba(255,255,255,.96);
+}
+
+*{box-sizing:border-box}
+
+html{
+  min-height:100%;
+  background:var(--bg);
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 50% -10%,rgba(56,189,248,.13),transparent 38%),
+    var(--bg);
+  color:var(--text);
+  font-family:Tahoma,Arial,sans-serif;
+  transition:background .2s,color .2s;
+}
+
+button,input,select{font:inherit}
+button{color:inherit;cursor:pointer}
+
+.app{
+  width:min(100%,760px);
+  margin:auto;
+  padding:env(safe-area-inset-top) 16px
+  calc(100px + env(safe-area-inset-bottom));
+}
+
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:18px 2px 16px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  min-width:0;
+}
+
+.logo{
+  width:44px;
+  height:44px;
+  flex:0 0 44px;
+  border-radius:15px;
+  background:linear-gradient(145deg,#38bdf8,#2563eb);
+  display:grid;
+  place-items:center;
+  box-shadow:0 8px 25px #0284c755;
+}
+
+.logo svg{width:25px;height:25px}
+
+.brand h1{
+  font-size:15px;
+  margin:0 0 4px;
+}
+
+.brand p{
+  margin:0;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.icon-btn{
+  width:40px;
+  height:40px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:var(--panel2);
+  font-size:16px;
+}
+
+/*
+<!-- style circuit image -->
+/////////////
+*/
+
+.about-avatar-btn{
+  width:42px;
+  height:42px;
+  padding:3px;
+  border:2px solid var(--blue);
+  border-radius:50%;
+  background:var(--panel2);
+  overflow:hidden;
+  cursor:pointer;
+  flex:0 0 42px;
+  box-shadow:0 0 12px rgba(56,189,248,.25);
+}
+
+.about-avatar-btn img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center 25%;
+  border-radius:50%;
+  display:block;
+}
+
+/* ABOUT PAGE */
+
+.about-designer{
+  text-align:center;
+  padding:22px 17px;
+}
+
+.about-photo-frame{
+  width:190px;
+  height:220px;
+  margin:0 auto 18px;
+  padding:4px;
+  border-radius:24px;
+  border:2px solid var(--blue);
+  background:var(--panel2);
+  box-shadow:0 10px 30px rgba(56,189,248,.18);
+  overflow:hidden;
+}
+
+.about-photo-frame img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center 25%;
+  border-radius:19px;
+  display:block;
+}
+
+.about-designer-info h2{
+  font-size:21px;
+  margin:10px 0;
+}
+
+.about-designer-info p,
+.about-system-description{
+  color:var(--muted);
+  font-size:12px;
+  line-height:2;
+}
+
+.about-contact{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+  margin-top:16px;
+}
+
+.about-contact a{
+  text-decoration:none;
+  color:var(--blue);
+  background:var(--field);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:11px 14px;
+  font-size:13px;
+  font-weight:bold;
+  direction:ltr;
+}
+
+.about-system-icon{
+  font-size:35px;
+  text-align:center;
+  margin:10px 0;
+}
+
+.about-system-name{
+  text-align:center;
+  font-size:19px;
+  margin:10px 0;
+}
+
+.about-system-description{
+  text-align:justify;
+}
+
+.about-service{
+  text-align:center;
+  border-color:var(--green);
+}
+
+.about-service p{
+  font-size:13px;
+  font-weight:bold;
+  line-height:2;
+}
+
+.card{
+  background:linear-gradient(155deg,var(--panel2),var(--panel));
+  border:1px solid var(--line);
+  border-radius:21px;
+  padding:17px;
+  margin:12px 0;
+  box-shadow:var(--shadow);
+}
+
+.section-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.section-head h2{
+  font-size:14px;
+  margin:0;
+}
+
+.eyebrow{
+  font-size:10px;
+  color:var(--muted);
+  letter-spacing:.7px;
+}
+
+.connection-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.status-wrap{
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.dot{
+  width:9px;
+  height:9px;
+  flex:0 0 9px;
+  border-radius:50%;
+  background:#64748b;
+}
+
+.dot.online{
+  background:var(--green);
+  box-shadow:0 0 0 4px #22c55e22;
+}
+
+.status-title{
+  font-size:14px;
+  font-weight:700;
+}
+
+.status-sub{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:5px;
+}
+
+.badge{
+  font-size:10px;
+  padding:7px 10px;
+  border-radius:30px;
+  background:var(--field);
+  border:1px solid var(--line);
+  color:var(--muted);
+}
+
+.link-status-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin-top:16px;
+}
+
+.link-status-item{
+  min-width:0;
+  padding:10px 8px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--field);
+  display:grid;
+  grid-template-columns:10px minmax(0,1fr);
+  column-gap:6px;
+  row-gap:5px;
+  align-items:center;
+}
+
+.link-status-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  grid-row:1;
+}
+
+.link-status-dot.online{
+  background:var(--green);
+  box-shadow:0 0 0 3px #22c55e22;
+}
+
+.link-status-dot.offline{background:#ef4444}
+.link-status-dot.unknown{background:#94a3b8}
+
+.link-status-label{
+  font-size:10px;
+  color:var(--muted);
+  overflow-wrap:anywhere;
+}
+
+.link-status-value{
+  grid-column:1/-1;
+  font-size:11px;
+  color:var(--text);
+  font-weight:700;
+}
+
+@media(max-width:360px){
+  .link-status-grid{gap:5px}
+  .link-status-item{padding:8px 5px}
+  .link-status-label{font-size:9px}
+}
+
+.device-line{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  border-top:1px solid var(--line);
+  margin-top:14px;
+  padding-top:12px;
+  font-size:11px;
+  color:var(--muted);
+}
+
+.device-line strong{
+  color:var(--text);
+  font-weight:600;
+}
+
+.modes{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:9px;
+}
+
+.mode{
+  border:1px solid var(--line);
+  background:var(--field);
+  color:var(--text);
+  border-radius:14px;
+  padding:13px 10px;
+  text-align:start;
+  min-height:74px;
+  transition:.18s;
+}
+
+.mode.selected{
+  border-color:var(--blue);
+  background:#12314a;
+}
+
+.mode .symbol{
+  font-size:19px;
+  display:block;
+  margin-bottom:7px;
+}
+
+.mode b{
+  display:block;
+  font-size:12px;
+}
+
+.mode small{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-top:4px;
+}
+
+.primary{
+  border:0;
+  border-radius:13px;
+  padding:13px 15px;
+  font-size:13px;
+  font-weight:700;
+  background:linear-gradient(100deg,#0284c7,#2563eb);
+  color:white;
+  width:100%;
+  margin-top:12px;
+}
+
+.note{
+  font-size:10px;
+  line-height:1.8;
+  color:var(--muted);
+  margin:11px 2px 0;
+}
+
+.controls{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.control{
+  height:86px;
+  border:0;
+  border-radius:17px;
+  color:white;
+  font-size:14px;
+  font-weight:800;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+}
+
+.control .arr{
+  font-size:22px;
+  line-height:1;
+}
+
+.open{
+  background:linear-gradient(145deg,#16a34a,#15803d);
+}
+
+.close{
+  background:linear-gradient(145deg,#2563eb,#1d4ed8);
+}
+
+.stop{
+  grid-column:1/-1;
+  height:58px;
+  background:linear-gradient(145deg,#ef4444,#b91c1c);
+  flex-direction:row;
+}
+
+.disabled{
+  opacity:.48;
+  filter:saturate(.45);
+  cursor:not-allowed;
+}
+
+.info-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.info-box{
+  background:var(--field);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:13px;
+}
+
+.info-box span{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-bottom:8px;
+}
+
+.info-box strong{font-size:13px}
+
+.speed-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:18px 0 10px;
+  gap:10px;
+}
+
+.speed-head label{
+  font-size:12px;
+}
+
+.speed-head strong{
+  font-size:13px;
+  color:var(--blue);
+}
+
+input[type=range]{
+  width:100%;
+  accent-color:var(--blue);
+  direction:ltr;
+}
+
+.range-labels{
+  display:flex;
+  justify-content:space-between;
+  color:var(--muted);
+  font-size:9px;
+  margin-top:5px;
+}
+
+.progress{
+  height:8px;
+  background:var(--line);
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:10px;
+}
+
+.progress>div{
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,#0ea5e9,#22c55e);
+  border-radius:20px;
+}
+
+.page{display:none}
+.page.active{display:block}
+
+.page-intro{
+  padding:5px 2px 8px;
+}
+
+.page-intro h2{
+  font-size:20px;
+  margin:0 0 7px;
+}
+
+.page-intro p{
+  font-size:12px;
+  line-height:1.8;
+  color:var(--muted);
+  margin:0;
+}
+
+.placeholder-icon{
+  font-size:28px;
+  margin-bottom:9px;
+}
+
+.placeholder-title{
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:7px;
+}
+
+.placeholder-copy{
+  font-size:11px;
+  line-height:1.9;
+  color:var(--muted);
+  margin:0;
+}
+
+.feature-list{
+  display:grid;
+  gap:9px;
+  margin-top:14px;
+}
+
+.feature-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:var(--field);
+  border:1px solid var(--line);
+  padding:11px 12px;
+  border-radius:13px;
+  font-size:11px;
+  color:var(--muted);
+}
+
+.feature-item span:first-child{font-size:16px}
+
+select.secondary{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  background:var(--field);
+  border:1px solid var(--line);
+  color:var(--text);
+}
+
+.bottom-nav{
+  position:fixed;
+  z-index:10;
+  bottom:0;
+  left:0;
+  right:0;
+  padding:8px 10px calc(8px + env(safe-area-inset-bottom));
+  background:var(--nav);
+  backdrop-filter:blur(16px);
+  border-top:1px solid var(--line);
+}
+
+.nav-inner{
+  width:min(100%,760px);
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:4px;
+}
+
+.nav-btn{
+  min-width:0;
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  border-radius:13px;
+  padding:7px 3px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  font-size:9px;
+}
+
+.nav-icon{
+  font-size:19px;
+}
+
+.nav-btn.active{
+  color:var(--blue);
+  background:#38bdf81c;
+  font-weight:700;
+}
+
+.toast{
+  position:fixed;
+  bottom:calc(88px + env(safe-area-inset-bottom));
+  left:50%;
+  transform:translate(-50%,15px);
+  opacity:0;
+  pointer-events:none;
+  background:var(--text);
+  color:var(--bg);
+  padding:12px 17px;
+  border-radius:12px;
+  font-size:12px;
+  box-shadow:var(--shadow);
+  transition:.25s;
+  white-space:normal;
+  width:max-content;
+  max-width:calc(100% - 32px);
+  text-align:center;
+  z-index:20;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+.footer{
+  text-align:center;
+  color:var(--muted);
+  font-size:10px;
+  padding:14px 0 4px;
+}
+
+@media(min-width:600px){
+  .app{padding-top:20px}
+  .modes{grid-template-columns:repeat(4,1fr)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{scroll-behavior:auto!important;transition:none!important}
+}
+</style> 
+</head>
+
+<body>
+
+<main class="app">
+
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">
+      <svg viewBox="0 0 24 24" fill="none"
+      stroke="white" stroke-width="1.8"
+      stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 5h18M5 5v14m14-14v14M5 8l7 3 7-3M5 19h14"/>
+        <path d="M8 8v8m4-5v5m4-8v8"/>
+      </svg>
+    </div>
+    <div>
+      <h1>CURTAIN CONTROLLER</h1>
+      <p>SMART GREENHOUSE SYSTEM 🌿</p>
+    </div>
+  </div>
+
+  <div class="top-actions">
+    <button class="icon-btn" id="languageBtn" type="button">EN</button>
+
+    <button class="about-avatar-btn" id="aboutBtn"
+      type="button" aria-label="About">
+      <img src="designer.jpg" alt="صورة المصمم">
+    </button>
+  </div>
+</header>
+
+<!-- ================= HOME ================= -->
+
+<section class="page active" id="page-home">
+
+  <div class="page-intro">
+    <h2 data-i18n="homeTitle">الرئيسية</h2>
+    <p data-i18n="homeIntro">
+      لوحة التحكم بالمنظومة الزراعية النشطة.
+    </p>
+  </div>
+
+  <section class="card">
+    <div class="section-head">
+      <h2 data-i18n="systemStatus">حالة النظام</h2>
+      <span class="eyebrow">DEVICE STATUS</span>
+    </div>
+
+    <div class="connection-row">
+      <div class="status-wrap">
+        <span class="dot" id="statusDot"></span>
+        <div>
+          <div class="status-title" id="statusText">غير متصل</div>
+          <div class="status-sub" id="statusHint">
+            اختر طريقة الاتصال للبدء
+          </div>
+        </div>
+      </div>
+      <span class="badge" id="modeBadge">OFFLINE</span>
+    </div>
+
+    <div class="link-status-grid">
+      <div class="link-status-item">
+        <span class="link-status-dot unknown" id="localWifiDot"></span>
+        <span class="link-status-label">Local Wi-Fi</span>
+        <strong class="link-status-value" id="localWifiState">
+          غير معروف
+        </strong>
+      </div>
+
+      <div class="link-status-item">
+        <span class="link-status-dot unknown" id="internetDot"></span>
+        <span class="link-status-label">Internet</span>
+        <strong class="link-status-value" id="internetState">
+          غير معروف
+        </strong>
+      </div>
+
+      <div class="link-status-item">
+        <span class="link-status-dot unknown" id="mqttDot"></span>
+        <span class="link-status-label">MQTT</span>
+        <strong class="link-status-value" id="mqttState">
+          غير معروف
+        </strong>
+      </div>
+    </div>
+
+    <div class="device-line">
+      <span data-i18n="deviceName">اسم المنظومة</span>
+      <strong>Curtain Controller 01</strong>
+    </div>
+
+    <div class="device-line">
+      <span>Device ID</span>
+      <strong id="activeDeviceIdDisplay">—</strong>
+    </div>
+  </section>
+
+  <!-- CONNECTION METHOD -->
+
+  <section class="card">
+    <div class="section-head">
+      <h2 data-i18n="connectionMethod">طريقة الاتصال</h2>
+      <span class="eyebrow">CONNECTION</span>
+    </div>
+
+    <div class="modes">
+
+      <button class="mode" data-mode="AP" type="button">
+        <span class="symbol">📶</span>
+        <b>Wi-Fi AP</b>
+        <small data-i18n="directConnection">
+          اتصال مباشر بالمتحكم
+        </small>
+      </button>
+
+      <button class="mode selected" data-mode="MQTT" type="button">
+        <span class="symbol">☁️</span>
+        <b>Internet / MQTT</b>
+        <small data-i18n="remoteControl">
+          تحكم عن بُعد
+        </small>
+      </button>
+
+    </div>
+
+    <button class="primary" id="connectBtn"
+      type="button" data-i18n="connect">
+      اتصال بالمتحكم
+    </button>
+
+    <p class="note" id="modeNote" data-i18n="mqttNote">
+      الاتصال عبر خادم MQTT باستخدام الإنترنت.
+    </p>
+  </section>
+
+  <!-- CURTAIN CONTROL -->
+
+  <section class="card">
+    <div class="section-head">
+      <h2 data-i18n="curtainControl">التحكم بالستائر</h2>
+      <span class="eyebrow">MOTOR CONTROL</span>
+    </div>
+
+    <div class="controls">
+
+      <button class="control open disabled"
+        id="openBtn" type="button">
+        <span class="arr">↑</span>
+        <span data-i18n="open">OPEN · فتح</span>
+      </button>
+
+      <button class="control close disabled"
+        id="closeBtn" type="button">
+        <span class="arr">↓</span>
+        <span data-i18n="close">CLOSE · إغلاق</span>
+      </button>
+
+      <button class="control stop disabled"
+        id="stopBtn" type="button">
+        <span class="arr">■</span>
+        <span data-i18n="stop">STOP · إيقاف</span>
+      </button>
+
+    </div>
+
+    <p class="note" data-i18n="controlNote">
+      لا تُفعّل الأوامر إلا بعد التأكد من اتصال المتحكم.
+    </p>
+  </section>
+
+  <!-- OPERATION INFORMATION -->
+
+  <section class="card">
+    <div class="section-head">
+      <h2 data-i18n="operationInfo">معلومات التشغيل</h2>
+      <span class="eyebrow">LIVE MONITOR</span>
+    </div>
+
+    <div class="info-grid">
+
+      <div class="info-box">
+        <span data-i18n="motorState">حالة المحرك</span>
+        <strong id="motorState" data-i18n="unknown">
+          غير معروف
+        </strong>
+      </div>
+
+      <div class="info-box">
+        <span data-i18n="direction">اتجاه الحركة</span>
+        <strong id="direction">—</strong>
+      </div>
+
+    </div>
+
+    <div class="speed-head">
+      <label data-i18n="motorSpeed">سرعة المحرك</label>
+      <strong id="speedValue">—</strong>
+    </div>
+
+    <input type="range" min="10" max="100"
+      step="5" value="50" disabled>
+
+    <div class="range-labels">
+      <span>10%</span>
+      <span>100%</span>
+    </div>
+
+    <div class="speed-head">
+      <label data-i18n="curtainPosition">موضع الستائر</label>
+      <strong id="positionValue" data-i18n="unavailable">
+        غير متاح
+      </strong>
+    </div>
+
+    <div class="progress">
+      <div id="positionBar"></div>
+    </div>
+
+    <p class="note" data-i18n="readingsLater">
+      قراءات السرعة والموضع ستُفعّل لاحقًا.
+    </p>
+  </section>
+
+  <footer class="footer">
+    Curtain Controller · SMART GREENHOUSE SYSTEM
+  </footer>
+
+</section>
+
+<!-- ================= MONITOR ================= -->
+
+<section class="page" id="page-monitor">
+
+  <div class="page-intro">
+    <h2 data-i18n="monitorTitle">المراقبة</h2>
+    <p data-i18n="monitorIntro">
+      متابعة بيانات المنظومة.
+    </p>
+  </div>
+
+  <section class="card">
+
+    <div class="placeholder-icon">📊</div>
+
+    <div class="placeholder-title" data-i18n="monitorFoundation">
+      قسم المراقبة
+    </div>
+
+    <p class="placeholder-copy" data-i18n="monitorLater">
+      سيُبنى هذا القسم لعرض القراءات الحقيقية التي يرسلها المتحكم والحساسات.
+    </p>
+
+    <div class="feature-list">
+
+      <div class="feature-item">
+        ↕️ <span data-i18n="positionLimits">
+          موضع الستارة وحدود الحركة
+        </span>
+      </div>
+
+      <div class="feature-item">
+        🌡️ <span data-i18n="environment">
+          بيانات البيئة والحساسات
+        </span>
+      </div>
+
+      <div class="feature-item">
+        ⚡ <span data-i18n="motorMeasurements">
+          بيانات المحرك والتغذية
+        </span>
+      </div>
+
+      <div class="feature-item">
+        📡 <span data-i18n="connectionDetails">
+          تفاصيل الاتصال
+        </span>
+      </div>
+
+    </div>
+  </section>
+
+</section>
+
+<!-- ================= REPORTS ================= -->
+
+<section class="page" id="page-reports">
+
+  <div class="page-intro">
+    <h2 data-i18n="reportsTitle">التقارير</h2>
+    <p data-i18n="reportsIntro">
+      سجلات الأوامر والأعطال والبيئة.
+    </p>
+  </div>
+
+  <section class="card">
+
+    <div class="placeholder-icon">🧾</div>
+
+    <div class="placeholder-title" data-i18n="reportsFoundation">
+      سجلات المنظومة
+    </div>
+
+    <p class="placeholder-copy" data-i18n="reportsLater">
+      سيتم تفعيل السجلات بعد بناء بروتوكول التأكيدات والتخزين.
+    </p>
+
+    <div class="feature-list">
+
+      <div class="feature-item">
+        🎛️ <span data-i18n="commandLog">سجل الأوامر</span>
+      </div>
+
+      <div class="feature-item">
+        ⚠️ <span data-i18n="faultLog">سجل الأعطال</span>
+      </div>
+
+      <div class="feature-item">
+        🌿 <span data-i18n="environmentLog">سجل البيئة</span>
+      </div>
+
+    </div>
+  </section>
+
+</section>
+
+<!-- ================= DEVICES ================= -->
+
+<section class="page" id="page-devices">
+
+  <div class="page-intro">
+    <h2 data-i18n="devicesTitle">منظوماتي</h2>
+    <p data-i18n="devicesIntro">
+      إضافة وإدارة المنظومات.
+    </p>
+  </div>
+
+  <section class="card">
+    <div class="section-head">
+      <h3 data-i18n="addDeviceTitle">إضافة منظومة</h3>
+      <span class="eyebrow">DEVICE ID</span>
+    </div>
+    <p class="note" data-i18n="addDeviceHelp">أدخل الهوية المطابقة لما هو مبرمج داخل ESP32. تُشتق موضوعات MQTT تلقائيًا.</p>
+    <label class="speed-head" for="newDeviceId" data-i18n="deviceIdLabel">هوية المتحكم</label>
+    <input id="newDeviceId" class="secondary" type="text" maxlength="40" placeholder="Fotprint1" autocomplete="off" dir="ltr">
+    <button id="addDeviceBtn" class="primary-btn" type="button" data-i18n="addDeviceBtn">إضافة المنظومة</button>
+    <p id="deviceFormMessage" class="note" aria-live="polite"></p>
+  </section>
+
+  <section class="card">
+    <div class="section-head">
+      <h3 data-i18n="savedDevicesTitle">منظومات هذا المتصفح</h3>
+      <span class="eyebrow">LOCAL</span>
+    </div>
+    <label class="speed-head" for="deviceSelect" data-i18n="selectDeviceLabel">المنظومة النشطة</label>
+    <select id="deviceSelect" class="secondary"><option value="" data-i18n="noDeviceOption">لا توجد منظومة مضافة</option></select>
+    <p class="note" data-i18n="deviceStorageNote">تُحفظ القائمة في هذا المتصفح فقط. فتح الرابط على جهاز أو متصفح آخر يبدأ بقائمة فارغة.</p>
+    <div class="device-line"><span>Command Topic</span><strong id="commandTopicDisplay" dir="ltr">—</strong></div>
+    <div class="device-line"><span>Status Topic</span><strong id="statusTopicDisplay" dir="ltr">—</strong></div>
+    <button id="removeDeviceBtn" class="secondary-btn" type="button" data-i18n="removeDeviceBtn" disabled>حذف المنظومة المحددة</button>
+  </section>
+
+</section> 
+<!-- ================= MORE ================= -->
+
+<section class="page" id="page-more">
+
+  <div class="page-intro">
+    <h2 data-i18n="moreTitle">المزيد</h2>
+    <p data-i18n="moreIntro">إعدادات التطبيق والمنظومة.</p>
+  </div>
+
+  <!-- APP PREFERENCES -->
+
+  <section class="card">
+    <div class="section-head">
+      <h2 data-i18n="appPreferences">تفضيلات التطبيق</h2>
+      <span class="eyebrow">PREFERENCES</span>
+    </div>
+
+    <div class="speed-head">
+      <label for="themeSelect" data-i18n="appearance">
+        المظهر
+      </label>
+    </div>
+
+    <select id="themeSelect" class="secondary">
+      <option value="dark" data-i18n="darkTheme">داكن</option>
+      <option value="light" data-i18n="lightTheme">فاتح</option>
+      <option value="system" data-i18n="systemTheme">حسب النظام</option>
+    </select>
+
+    <div class="speed-head">
+      <label for="languageSelect" data-i18n="language">
+        اللغة
+      </label>
+    </div>
+
+    <select id="languageSelect" class="secondary">
+      <option value="ar">العربية</option>
+      <option value="en">English</option>
+    </select>
+  </section>
+
+  <!-- WIFI AND INTERNET SETTINGS -->
+
+  <section class="card" id="networkSettingsCard">
+
+    <div class="section-head">
+      <h2 data-i18n="networkSettingsTitle">
+        إعدادات Wi-Fi والإنترنت
+      </h2>
+      <span class="eyebrow">NETWORK</span>
+    </div>
+
+    <p class="note" data-i18n="networkSettingsDescription">
+      أدخل بيانات شبكة الراوتر التي سيتصل بها المتحكم.
+    </p>
+
+    <!-- ROUTER SSID -->
+
+    <div class="speed-head">
+      <label for="wifiSSID" data-i18n="wifiSSID">
+        اسم شبكة Wi-Fi
+      </label>
+    </div>
+
+    <input
+      id="wifiSSID"
+      class="secondary"
+      type="text"
+      placeholder="Router Wi-Fi name"
+      autocomplete="off"
+      maxlength="32"
+      dir="auto"
+    >
+
+    <!-- ROUTER PASSWORD -->
+
+    <div class="speed-head">
+      <label for="wifiPassword" data-i18n="wifiPassword">
+        كلمة مرور Wi-Fi
+      </label>
+    </div>
+
+    <input
+      id="wifiPassword"
+      class="secondary"
+      type="password"
+      placeholder="Wi-Fi password"
+      autocomplete="new-password"
+      maxlength="64"
+      dir="auto"
+    >
+
+    <!-- SHOW PASSWORD -->
+
+    <label style="
+      display:flex;
+      align-items:center;
+      gap:9px;
+      margin-top:12px;
+      color:var(--muted);
+      font-size:11px;
+    ">
+      <input
+        id="showWifiPassword"
+        type="checkbox"
+        style="accent-color:var(--blue)"
+      >
+      <span data-i18n="showPassword">إظهار كلمة المرور</span>
+    </label>
+
+    <!-- SAVE AND CONNECT -->
+
+    <button
+      class="primary"
+      id="saveWifiBtn"
+      type="button"
+      data-i18n="saveWifiConnect"
+    >
+      حفظ والاتصال بالراوتر
+    </button>
+
+    <div class="device-line">
+      <span data-i18n="routerConnectionStatus">
+        حالة اتصال الراوتر
+      </span>
+      <strong id="routerConnectionState" data-i18n="unknown">
+        غير معروف
+      </strong>
+    </div>
+
+    <!-- INTERNET CONTROL -->
+
+    <div class="section-head" style="margin-top:22px">
+      <h2 data-i18n="internetControl">
+        التحكم بالإنترنت
+      </h2>
+      <span class="eyebrow">INTERNET</span>
+    </div>
+
+    <div class="info-grid">
+
+      <button
+        class="primary"
+        id="internetOnBtn"
+        type="button"
+        style="background:linear-gradient(100deg,#16a34a,#15803d)"
+        data-i18n="internetOn"
+      >
+        تشغيل الإنترنت
+      </button>
+
+      <button
+        class="primary"
+        id="internetOffBtn"
+        type="button"
+        style="background:linear-gradient(100deg,#dc2626,#991b1b)"
+        data-i18n="internetOff"
+      >
+        إيقاف الإنترنت
+      </button>
+
+    </div>
+
+    <!-- OPERATION RESULT -->
+
+    <div class="device-line">
+      <span data-i18n="requestResult">نتيجة الطلب</span>
+      <strong id="networkResult" data-i18n="waiting">
+        بانتظار الطلب
+      </strong>
+    </div>
+
+    <p class="note" id="networkSettingsNote" data-i18n="localNetworkNote">
+      هذه الإعدادات تعمل حاليًا عند الاتصال بشبكة المتحكم المحلية
+      (CurtainController_01). التحكم بها عن بُعد عبر الإنترنت
+      يحتاج إلى تفعيل أوامر مخصصة وآمنة في برنامج ESP32.
+    </p>
+
+  </section>
+
+  <!-- SYSTEM SETTINGS -->
+
+  <section class="card">
+
+    <div class="section-head">
+      <h2 data-i18n="futureSettings">إعدادات المنظومة</h2>
+      <span class="eyebrow">SYSTEM</span>
+    </div>
+
+    <div class="feature-list">
+
+      <div class="feature-item">
+        📡 <span data-i18n="connectionSettings">
+          إعدادات الاتصال
+        </span>
+      </div>
+
+      <div class="feature-item">
+        🔐 <span data-i18n="securitySettings">
+          الحماية والصلاحيات
+        </span>
+      </div>
+
+      <div class="feature-item">
+        📷 <span data-i18n="cameraSettings">
+          إعدادات كاميرا المنظومة
+        </span>
+      </div>
+
+      <div class="feature-item">
+        ℹ️ <span data-i18n="deviceInformation">
+          معلومات المنظومة
+        </span>
+      </div>
+
+      <div class="feature-item">
+        💾 <span data-i18n="dataStorage">
+          التخزين وإدارة البيانات
+        </span>
+      </div>
+
+    </div>
+
+    <p class="note" data-i18n="settingsLater">
+      ستُفعّل هذه الإعدادات في مراحلها المخصصة.
+    </p>
+
+  </section>
+
+</section>
+
+<!-- ================= ABOUT PAGE ================= -->
+
+<section class="page" id="page-about">
+
+  <div class="page-intro">
+    <h2 data-i18n="aboutPageTitle">حول التطبيق</h2>
+    <p data-i18n="aboutPageIntro">
+      تعرف على المصمم والمنظومة.
+    </p>
+  </div>
+
+  <!-- DESIGNER -->
+
+  <section class="card about-designer">
+
+    <div class="about-photo-frame">
+      <img src="designer.jpg" alt="صورة المصمم">
+    </div>
+
+    <div class="about-designer-info">
+
+      <span class="eyebrow" data-i18n="designerLabel">
+        تصميم وتطوير
+      </span>
+
+      <h2 data-i18n="designerName">
+        حمزة الحسام
+      </h2>
+
+      <p data-i18n="designerDescription">
+        مهتم بتصميم وتطوير الحلول الهندسية والأنظمة الزراعية الذكية.
+      </p>
+
+      <div class="about-contact">
+        <a href="tel:777439011">📞 777439011</a>
+        <a href="tel:785008037">📞 785008037</a>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- SYSTEM INFORMATION -->
+
+  <section class="card">
+
+    <div class="section-head">
+      <h2 data-i18n="systemAboutTitle">عن المنظومة</h2>
+      <span class="eyebrow">SMART GREENHOUSE 🌿</span>
+    </div>
+
+    <div class="about-system-icon">🌱</div>
+
+    <h3 class="about-system-name">
+      Curtain Controller
+    </h3>
+
+    <p class="about-system-description" data-i18n="systemAboutDescription">
+      منظومة ذكية للتحكم بستائر البيوت المحمية الزراعية،
+      تهدف إلى تسهيل عملية فتح وإغلاق الستائر والتحكم بها
+      إلكترونيًا، مع إمكانية التحكم عن بُعد عبر الإنترنت.
+    </p>
+
+  </section>
+
+  <!-- CONTACT -->
+
+  <section class="card about-service">
+
+    <div class="about-system-icon">🤝</div>
+
+    <p data-i18n="serviceRequest">
+      لطلب تصميم المنظومات الزراعية أو الاستشارات
+      يرجى التواصل بالأرقام المذكورة.
+    </p>
+
+    <div class="about-contact">
+      <a href="tel:777439011">777439011</a>
+      <a href="tel:785008037">785008037</a>
+    </div>
+
+  </section>
+
+  <footer class="footer">
+    Curtain Controller · SMART GREENHOUSE SYSTEM 🌿
+  </footer>
+
+</section>
+
+<!-- ================= END ABOUT PAGE ================= -->
+
+</main> 
+<!-- ================= BOTTOM NAVIGATION ================= -->
+
+<nav class="bottom-nav">
+  <div class="nav-inner">
+
+    <button class="nav-btn active" data-target="home" type="button">
+      <span class="nav-icon">⌂</span>
+      <span data-i18n="navHome">الرئيسية</span>
+    </button>
+
+    <button class="nav-btn" data-target="monitor" type="button">
+      <span class="nav-icon">◫</span>
+      <span data-i18n="navMonitor">المراقبة</span>
+    </button>
+
+    <button class="nav-btn" data-target="reports" type="button">
+      <span class="nav-icon">▤</span>
+      <span data-i18n="navReports">التقارير</span>
+    </button>
+
+    <button class="nav-btn" data-target="devices" type="button">
+      <span class="nav-icon">▣</span>
+      <span data-i18n="navDevices">منظوماتي</span>
+    </button>
+
+    <button class="nav-btn" data-target="more" type="button">
+      <span class="nav-icon">⋯</span>
+      <span data-i18n="navMore">المزيد</span>
+    </button>
+
+  </div>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+
+<script>
+"use strict";
+
+/* =========================================
+   1. TRANSLATIONS
+========================================= */
+
+const translations = {
+
+ar: {
+  homeTitle:"الرئيسية",
+  homeIntro:"لوحة التحكم بالمنظومة الزراعية النشطة.",
+  systemStatus:"حالة النظام",
+  offline:"غير متصل",
+  chooseConnection:"اختر طريقة الاتصال للبدء",
+  deviceName:"اسم المنظومة",
+  connectionMethod:"طريقة الاتصال",
+  directConnection:"اتصال مباشر بالمتحكم",
+  remoteControl:"تحكم عن بُعد",
+  connect:"اتصال بالمتحكم",
+  mqttNote:"الاتصال عبر خادم MQTT باستخدام الإنترنت.",
+  curtainControl:"التحكم بالستائر",
+  open:"OPEN · فتح",
+  close:"CLOSE · إغلاق",
+  stop:"STOP · إيقاف",
+  controlNote:"لا تُفعّل الأوامر إلا بعد التأكد من اتصال المتحكم.",
+  operationInfo:"معلومات التشغيل",
+  motorState:"حالة المحرك",
+  direction:"اتجاه الحركة",
+  unknown:"غير معروف",
+  motorSpeed:"سرعة المحرك",
+  curtainPosition:"موضع الستائر",
+  unavailable:"غير متاح",
+  readingsLater:"قراءات السرعة والموضع ستُفعّل لاحقًا.",
+
+  monitorTitle:"المراقبة",
+  monitorIntro:"متابعة بيانات المنظومة.",
+  monitorFoundation:"قسم المراقبة",
+  monitorLater:"سيُبنى هذا القسم لعرض القراءات الحقيقية التي يرسلها المتحكم والحساسات.",
+  positionLimits:"موضع الستارة وحدود الحركة",
+  environment:"بيانات البيئة والحساسات",
+  motorMeasurements:"بيانات المحرك والتغذية",
+  connectionDetails:"تفاصيل الاتصال",
+
+  reportsTitle:"التقارير",
+  reportsIntro:"سجلات الأوامر والأعطال والبيئة.",
+  reportsFoundation:"سجلات المنظومة",
+  reportsLater:"سيتم تفعيل السجلات بعد بناء بروتوكول التأكيدات والتخزين.",
+  commandLog:"سجل الأوامر",
+  faultLog:"سجل الأعطال",
+  environmentLog:"سجل البيئة",
+
+  devicesTitle:"منظوماتي",
+  devicesIntro:"إضافة وإدارة المنظومات.",
+  devicesFoundation:"إدارة المنظومات",
+  devicesLater:"إضافة منظومة باستخدام هوية المتحكم.",
+  addDeviceTitle:"إضافة منظومة",
+  addDeviceHelp:"أدخل الهوية المطابقة لما هو مبرمج داخل ESP32. تُشتق موضوعات MQTT تلقائيًا.",
+  deviceIdLabel:"هوية المتحكم",
+  addDeviceBtn:"إضافة المنظومة",
+  savedDevicesTitle:"منظومات هذا المتصفح",
+  selectDeviceLabel:"المنظومة النشطة",
+  noDeviceOption:"لا توجد منظومة مضافة",
+  deviceStorageNote:"تُحفظ القائمة في هذا المتصفح فقط. فتح الرابط على جهاز أو متصفح آخر يبدأ بقائمة فارغة.",
+  removeDeviceBtn:"حذف المنظومة المحددة",
+  invalidDeviceId:"استخدم أحرفًا إنجليزية وأرقامًا وشرطة سفلية أو شرطة فقط.",
+  duplicateDeviceId:"هذه الهوية مضافة بالفعل.",
+  deviceAdded:"تمت إضافة المنظومة وتفعيلها.",
+  deviceRemoved:"تم حذف المنظومة المحددة.",
+  noDeviceSelected:"أضف منظومة واخترها أولًا.",
+
+  moreTitle:"المزيد",
+  moreIntro:"إعدادات التطبيق والمنظومة.",
+  appPreferences:"تفضيلات التطبيق",
+  appearance:"المظهر",
+  darkTheme:"داكن",
+  lightTheme:"فاتح",
+  systemTheme:"حسب النظام",
+  language:"اللغة",
+  futureSettings:"إعدادات المنظومة",
+  connectionSettings:"إعدادات الاتصال",
+  securitySettings:"الحماية والصلاحيات",
+  wifiSettings:"إعدادات Wi-Fi",
+  deviceInformation:"معلومات المنظومة",
+  dataStorage:"التخزين وإدارة البيانات",
+  settingsLater:"ستُفعّل هذه الإعدادات في مراحلها المخصصة.",
+
+  /* Wi-Fi and Internet settings */
+
+  networkSettingsTitle:"إعدادات Wi-Fi والإنترنت",
+  networkSettingsDescription:"أدخل بيانات شبكة الراوتر التي سيتصل بها المتحكم.",
+  wifiSSID:"اسم شبكة Wi-Fi",
+  wifiPassword:"كلمة مرور Wi-Fi",
+  showPassword:"إظهار كلمة المرور",
+  saveWifiConnect:"حفظ والاتصال بالراوتر",
+  routerConnectionStatus:"حالة اتصال الراوتر",
+  internetControl:"التحكم بالإنترنت",
+  internetOn:"تشغيل الإنترنت",
+  internetOff:"إيقاف الإنترنت",
+  requestResult:"نتيجة الطلب",
+  waiting:"بانتظار الطلب",
+  localNetworkNote:"هذه الإعدادات تعمل حاليًا عند الاتصال بشبكة المتحكم المحلية. التحكم بها عن بُعد عبر الإنترنت يحتاج إلى تفعيل أوامر مخصصة وآمنة في برنامج ESP32.",
+  wifiSaved:"تم إرسال بيانات الشبكة إلى المتحكم.",
+  wifiSaveFailed:"تعذر حفظ بيانات Wi-Fi.",
+  enterSSID:"يرجى إدخال اسم شبكة Wi-Fi.",
+  internetEnabled:"تم إرسال طلب تشغيل الإنترنت.",
+  internetDisabled:"تم إرسال طلب إيقاف الإنترنت.",
+  internetRequestFailed:"تعذر تنفيذ طلب الإنترنت.",
+  localConnectionRequired:"اتصل بشبكة المتحكم المحلية أولًا.",
+  cameraSettings:"إعدادات كاميرا المنظومة",
+
+  navHome:"الرئيسية",
+  navMonitor:"المراقبة",
+  navReports:"التقارير",
+  navDevices:"منظوماتي",
+  navMore:"المزيد",
+
+  connecting:"جارٍ الاتصال بخادم MQTT...",
+  serverConnected:"متصل بخادم MQTT، بانتظار المتحكم",
+  serverOffline:"غير متصل بخادم MQTT",
+  deviceOnline:"المتحكم متصل",
+  deviceOffline:"المتحكم غير متصل",
+  mqttLoadError:"تعذر تحميل مكتبة MQTT. تحقق من الإنترنت.",
+  chooseMqtt:"اختر Internet / MQTT أولاً.",
+  connectingToast:"جارٍ الاتصال بالخادم...",
+  mqttSuccess:"تم الاتصال بخادم MQTT",
+  subscribeFail:"فشل الاشتراك في موضوع الحالة",
+  mqttError:"حدث خطأ في اتصال MQTT",
+  sent:"تم إرسال الأمر: ",
+  sendFail:"فشل إرسال الأمر",
+  connectFirst:"اتصل بالخادم أولاً",
+  modeUnavailable:"هذا النمط غير مفعّل.",
+  languageChanged:"تم تغيير اللغة",
+  themeChanged:"تم تغيير المظهر",
+  disconnect:"فصل الاتصال",
+  brokerOnly:"اتصال الخادم لا يعني أن المتحكم متصل.",
+
+  aboutPageTitle:"حول التطبيق",
+  aboutPageIntro:"تعرف على المصمم والمنظومة.",
+  designerLabel:"تصميم وتطوير",
+  designerName:"حمزة الحسام",
+  designerDescription:"مهتم بتصميم وتطوير الحلول الهندسية والأنظمة الزراعية الذكية.",
+  systemAboutTitle:"عن المنظومة",
+  systemAboutDescription:"منظومة ذكية للتحكم بستائر البيوت المحمية الزراعية، تهدف إلى تسهيل عملية فتح وإغلاق الستائر والتحكم بها إلكترونيًا، مع إمكانية التحكم عن بُعد عبر الإنترنت.",
+  serviceRequest:"لطلب تصميم المنظومات الزراعية أو الاستشارات يرجى التواصل بالأرقام المذكورة."
+},
+
+en: {
+  homeTitle:"Home",
+  homeIntro:"Control panel for the active greenhouse system.",
+  systemStatus:"System status",
+  offline:"Offline",
+  chooseConnection:"Choose a connection method to begin",
+  deviceName:"System name",
+  connectionMethod:"Connection method",
+  directConnection:"Direct controller connection",
+  remoteControl:"Remote control",
+  connect:"Connect to controller",
+  mqttNote:"Connect through an MQTT broker using the internet.",
+  curtainControl:"Curtain control",
+  open:"OPEN",
+  close:"CLOSE",
+  stop:"STOP",
+  controlNote:"Commands are enabled only after confirming controller connectivity.",
+  operationInfo:"Operation information",
+  motorState:"Motor state",
+  direction:"Movement direction",
+  unknown:"Unknown",
+  motorSpeed:"Motor speed",
+  curtainPosition:"Curtain position",
+  unavailable:"Unavailable",
+  readingsLater:"Speed and position readings will be enabled later.",
+
+  monitorTitle:"Monitor",
+  monitorIntro:"View system information.",
+  monitorFoundation:"Monitoring",
+  monitorLater:"This section will display real readings sent by the controller and sensors.",
+  positionLimits:"Curtain position and movement limits",
+  environment:"Environmental and sensor data",
+  motorMeasurements:"Motor and power data",
+  connectionDetails:"Connection details",
+
+  reportsTitle:"Reports",
+  reportsIntro:"Command, fault and environmental records.",
+  reportsFoundation:"System records",
+  reportsLater:"Records will be enabled after the acknowledgement protocol and storage are implemented.",
+  commandLog:"Command history",
+  faultLog:"Fault history",
+  environmentLog:"Environmental records",
+
+  devicesTitle:"My Devices",
+  devicesIntro:"Add and manage systems.",
+  devicesFoundation:"Device management",
+  devicesLater:"Add a controller using its device identity.",
+  addDeviceTitle:"Add a system",
+  addDeviceHelp:"Enter the identity programmed into the ESP32. MQTT topics are generated automatically.",
+  deviceIdLabel:"Controller identity",
+  addDeviceBtn:"Add system",
+  savedDevicesTitle:"Systems in this browser",
+  selectDeviceLabel:"Active system",
+  noDeviceOption:"No system added",
+  deviceStorageNote:"The list is stored only in this browser. Opening the link on another device or browser starts with an empty list.",
+  removeDeviceBtn:"Remove selected system",
+  invalidDeviceId:"Use English letters, numbers, underscores or hyphens only.",
+  duplicateDeviceId:"This identity has already been added.",
+  deviceAdded:"System added and selected.",
+  deviceRemoved:"Selected system removed.",
+  noDeviceSelected:"Add and select a system first.",
+
+  moreTitle:"More",
+  moreIntro:"Application and system settings.",
+  appPreferences:"App preferences",
+  appearance:"Appearance",
+  darkTheme:"Dark",
+  lightTheme:"Light",
+  systemTheme:"System",
+  language:"Language",
+  futureSettings:"System settings",
+  connectionSettings:"Connection settings",
+  securitySettings:"Security and permissions",
+  wifiSettings:"Wi-Fi settings",
+  deviceInformation:"System information",
+  dataStorage:"Data storage and management",
+  settingsLater:"These settings will be enabled in their dedicated stages.",
+
+  /* Wi-Fi and Internet settings */
+
+  networkSettingsTitle:"Wi-Fi and Internet Settings",
+  networkSettingsDescription:"Enter the router network details for the controller.",
+  wifiSSID:"Wi-Fi Network Name",
+  wifiPassword:"Wi-Fi Password",
+  showPassword:"Show password",
+  saveWifiConnect:"Save and Connect",
+  routerConnectionStatus:"Router connection status",
+  internetControl:"Internet Control",
+  internetOn:"Internet ON",
+  internetOff:"Internet OFF",
+  requestResult:"Request result",
+  waiting:"Waiting for request",
+  localNetworkNote:"These settings currently work only through the controller's local Wi-Fi network. Remote configuration requires dedicated secure commands in the ESP32 firmware.",
+  wifiSaved:"Wi-Fi settings sent to the controller.",
+  wifiSaveFailed:"Could not save Wi-Fi settings.",
+  enterSSID:"Please enter a Wi-Fi network name.",
+  internetEnabled:"Internet ON request sent.",
+  internetDisabled:"Internet OFF request sent.",
+  internetRequestFailed:"Could not execute the internet request.",
+  localConnectionRequired:"Connect to the controller's local Wi-Fi first.",
+  cameraSettings:"Greenhouse Camera Settings",
+
+  navHome:"Home",
+  navMonitor:"Monitor",
+  navReports:"Reports",
+  navDevices:"Devices",
+  navMore:"More",
+
+  connecting:"Connecting to MQTT broker...",
+  serverConnected:"Connected to MQTT broker, waiting for controller",
+  serverOffline:"MQTT broker disconnected",
+  deviceOnline:"Controller online",
+  deviceOffline:"Controller offline",
+  mqttLoadError:"Could not load MQTT library. Check your internet connection.",
+  chooseMqtt:"Choose Internet / MQTT first.",
+  connectingToast:"Connecting to broker...",
+  mqttSuccess:"Connected to MQTT broker",
+  subscribeFail:"Could not subscribe to status topic",
+  mqttError:"MQTT connection error",
+  sent:"Command published: ",
+  sendFail:"Failed to publish command",
+  connectFirst:"Connect to the broker first",
+  modeUnavailable:"This mode is not enabled.",
+  languageChanged:"Language changed",
+  themeChanged:"Appearance changed",
+  disconnect:"Disconnect",
+  brokerOnly:"Broker connection does not mean the controller is online.",
+
+  aboutPageTitle:"About the App",
+  aboutPageIntro:"Meet the designer and discover the system.",
+  designerLabel:"Designed and Developed by",
+  designerName:"Hamza Al-Hussam",
+  designerDescription:"Interested in designing and developing engineering solutions and smart agricultural systems.",
+  systemAboutTitle:"About the System",
+  systemAboutDescription:"A smart system for controlling greenhouse curtains electronically, making it easier to open and close them, with remote control capabilities over the internet.",
+  serviceRequest:"For agricultural system design services or consultations, please contact us using the numbers above."
+}
+
+};
+
+/* =========================================
+   2. SETTINGS AND VARIABLES
+========================================= */
+
+const DEVICE_LIST_KEY = "curtain_device_list_v1";
+const ACTIVE_DEVICE_KEY = "curtain_active_device_v1";
+let devices = loadDeviceList();
+let DEVICE_ID = localStorage.getItem(ACTIVE_DEVICE_KEY) || "";
+
+const BROKER_URL =
+  "wss://broker.freemqtt.com:8084/mqtt";
+
+const MQTT_OPTIONS = {
+  username: "freemqtt",
+  password: "public",
+  clientId: "WEB_CURTAIN_" +
+    Math.random().toString(16).slice(2,10),
+  clean: true,
+  connectTimeout: 10000,
+  reconnectPeriod: 0
+};
+
+let COMMAND_TOPIC = "";
+let STATUS_TOPIC = "";
+
+function loadDeviceList() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(DEVICE_LIST_KEY) || "[]");
+    return Array.isArray(parsed) ? parsed.filter(id => typeof id === "string") : [];
+  } catch (_) { return []; }
+}
+
+function saveDeviceList() {
+  localStorage.setItem(DEVICE_LIST_KEY, JSON.stringify(devices));
+}
+
+function setActiveDevice(id) {
+  if (!devices.includes(id)) id = "";
+  if (mqttClient) { try { mqttClient.end(true); } catch (_) {} }
+  mqttClient = null;
+  connected = false;
+  deviceOnline = false;
+  stopLocalPolling();
+  localConnected = false;
+  localAvailable = false;
+  localStatus = null;
+  DEVICE_ID = id;
+  COMMAND_TOPIC = id ? "curtain/" + id + "/command" : "";
+  STATUS_TOPIC = id ? "curtain/" + id + "/status" : "";
+  if (id) localStorage.setItem(ACTIVE_DEVICE_KEY, id);
+  else localStorage.removeItem(ACTIVE_DEVICE_KEY);
+  renderDeviceManager();
+  updateConnectionDisplay();
+}
+
+function renderDeviceManager() {
+  const select = document.getElementById("deviceSelect");
+  if (!select) return;
+  select.innerHTML = "";
+  if (!devices.length) {
+    const option = document.createElement("option");
+    option.value = ""; option.textContent = t("noDeviceOption");
+    select.appendChild(option);
+  } else {
+    devices.forEach(id => {
+      const option = document.createElement("option");
+      option.value = id; option.textContent = id;
+      select.appendChild(option);
+    });
+  }
+  select.value = DEVICE_ID;
+  document.getElementById("activeDeviceIdDisplay").textContent = DEVICE_ID || "—";
+  document.getElementById("commandTopicDisplay").textContent = COMMAND_TOPIC || "—";
+  document.getElementById("statusTopicDisplay").textContent = STATUS_TOPIC || "—";
+  document.getElementById("removeDeviceBtn").disabled = !DEVICE_ID;
+}
+
+let currentLanguage =
+  localStorage.getItem("curtain_language") === "en"
+    ? "en"
+    : "ar";
+
+let selectedTheme =
+  ["dark","light","system"].includes(
+    localStorage.getItem("curtain_theme")
+  )
+    ? localStorage.getItem("curtain_theme")
+    : "dark";
+
+let selectedMode = "MQTT";
+
+let mqttClient = null;
+let connected = false;
+let deviceOnline = false;
+
+let localConnected = false;
+let localAvailable = false;
+let localStatus = null;
+
+let localPollTimer = null;
+let localChecking = false;
+let localStatusRequestInProgress = false;
+let localCommandInProgress = false;
+
+const LOCAL_API = "http://192.168.4.1";
+
+let toastTimer = null;
+/* =========================================
+   3. GENERAL HELPERS
+========================================= */
+
+function t(key) {
+  return translations[currentLanguage][key] || key;
+}
+
+function toast(message) {
+  const element = document.getElementById("toast");
+  if (!element) return;
+
+  element.textContent = message;
+  element.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer = setTimeout(() => {
+    element.classList.remove("show");
+  }, 2800);
+}
+
+/* =========================================
+   4. NAVIGATION
+========================================= */
+
+function openPage(pageName) {
+
+  document.querySelectorAll(".page").forEach(page => {
+    page.classList.remove("active");
+  });
+
+  document.querySelectorAll(".nav-btn").forEach(button => {
+    button.classList.remove("active");
+  });
+
+  const page = document.getElementById("page-" + pageName);
+
+  const navButton = document.querySelector(
+    '.nav-btn[data-target="' + pageName + '"]'
+  );
+
+  if (!page || !navButton) return;
+
+  page.classList.add("active");
+  navButton.classList.add("active");
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+document.querySelectorAll(".nav-btn").forEach(button => {
+  button.addEventListener("click", () => {
+    openPage(button.dataset.target);
+  });
+});
+
+/* =========================================
+   5. LANGUAGE
+========================================= */
+
+function applyLanguage() {
+
+  document.documentElement.lang = currentLanguage;
+
+  document.documentElement.dir =
+    currentLanguage === "ar" ? "rtl" : "ltr";
+
+  document.querySelectorAll("[data-i18n]").forEach(element => {
+
+    const key = element.dataset.i18n;
+
+    if (translations[currentLanguage][key]) {
+      element.textContent = t(key);
+    }
+  });
+
+  document.getElementById("languageBtn").textContent =
+    currentLanguage === "ar" ? "EN" : "ع";
+
+  document.getElementById("languageSelect").value =
+    currentLanguage;
+
+  updateConnectionDisplay();
+}
+
+function changeLanguage(language) {
+
+  currentLanguage = language === "en" ? "en" : "ar";
+
+  localStorage.setItem("curtain_language", currentLanguage);
+
+  applyLanguage();
+
+  toast(t("languageChanged"));
+}
+
+document.getElementById("languageBtn").addEventListener("click", () => {
+  changeLanguage(currentLanguage === "ar" ? "en" : "ar");
+});
+
+document.getElementById("languageSelect").addEventListener("change", event => {
+  changeLanguage(event.target.value);
+});
+
+/* =========================================
+   6. THEME
+========================================= */
+
+function applyTheme() {
+
+  let actualTheme = selectedTheme;
+
+  if (selectedTheme === "system") {
+    actualTheme = window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: light)").matches
+      ? "light"
+      : "dark";
+  }
+
+  document.documentElement.dataset.theme = actualTheme;
+
+  document.getElementById("themeSelect").value = selectedTheme;
+}
+
+function changeTheme(theme) {
+
+  if (!["dark", "light", "system"].includes(theme)) return;
+
+  selectedTheme = theme;
+
+  localStorage.setItem("curtain_theme", selectedTheme);
+
+  applyTheme();
+
+  toast(t("themeChanged"));
+}
+
+document.getElementById("themeSelect").addEventListener("change", event => {
+  changeTheme(event.target.value);
+});
+
+if (window.matchMedia) {
+  window.matchMedia("(prefers-color-scheme: light)")
+    .addEventListener?.("change", () => {
+      if (selectedTheme === "system") applyTheme();
+    });
+}
+
+/* =========================================
+   7. CONNECTION MODE SELECTION
+========================================= */
+
+const modeNotes = {
+  AP: {
+    ar: "الاتصال المباشر عبر شبكة Wi-Fi التي ينشئها المتحكم.",
+    en: "Direct connection through the controller's Wi-Fi access point."
+  },
+
+  MQTT: {
+    ar: "الاتصال عبر خادم MQTT باستخدام الإنترنت.",
+    en: "Connect through an MQTT broker using the internet."
+  }
+};
+
+function selectMode(mode) {
+
+  if (!["AP", "MQTT"].includes(mode)) return;
+
+  // Keep only the selected communication path active in the page.
+  selectedMode = mode;
+
+  if (mode === "AP") {
+    // MQTT is not needed while controlling through the local access point.
+    stopLocalPolling();
+
+    if (mqttClient) {
+      try {
+        mqttClient.end(true);
+      } catch (error) {
+        console.warn("Could not close MQTT session:", error);
+      }
+    }
+
+    mqttClient = null;
+    connected = false;
+    deviceOnline = false;
+    localConnected = false;
+
+  } else {
+    // Do not let an old local connection enable controls in MQTT mode.
+    stopLocalPolling();
+    localConnected = false;
+    localChecking = false;
+  }
+
+  document.querySelectorAll(".mode").forEach(button => {
+    button.classList.toggle(
+      "selected",
+      button.dataset.mode === mode
+    );
+  });
+
+  const note = document.getElementById("modeNote");
+
+  if (note && modeNotes[mode]) {
+    note.textContent = modeNotes[mode][currentLanguage];
+  }
+
+  updateConnectionDisplay();
+
+  // Revalidate the AP connection when entering local mode; do not assume
+  // that a previously detected controller is still reachable.
+  if (mode === "AP") {
+    checkLocalStatus(false);
+  }
+}
+
+document.querySelectorAll(".mode").forEach(button => {
+  button.addEventListener("click", () => {
+    selectMode(button.dataset.mode);
+  });
+});
+
+/* =========================================
+   8. CONNECTION STATUS
+========================================= */
+
+function renderLinkState(dotId, textId, state) {
+
+  const dot = document.getElementById(dotId);
+  const label = document.getElementById(textId);
+
+  if (!dot || !label) return;
+
+  dot.classList.remove("online", "offline", "unknown");
+
+  dot.classList.add(
+    state === true
+      ? "online"
+      : state === false
+        ? "offline"
+        : "unknown"
+  );
+
+  label.textContent = state === true
+    ? (currentLanguage === "ar" ? "متصل" : "Connected")
+    : state === false
+      ? (currentLanguage === "ar" ? "غير متصل" : "Disconnected")
+      : (currentLanguage === "ar" ? "غير معروف" : "Unknown");
+}
+
+function updateLinkStatusIndicators() {
+
+  const localState = localStatus
+    ? localConnected
+    : null;
+
+  const internetState =
+    localStatus && typeof localStatus.internet === "boolean"
+      ? localStatus.internet
+      : null;
+
+  const mqttState =
+    connected && deviceOnline
+      ? true
+      : null;
+
+  renderLinkState(
+    "localWifiDot",
+    "localWifiState",
+    localState
+  );
+
+  renderLinkState(
+    "internetDot",
+    "internetState",
+    internetState
+  );
+
+  renderLinkState(
+    "mqttDot",
+    "mqttState",
+    mqttState
+  );
+}
+
+function updateConnectionDisplay() {
+
+  const statusDot = document.getElementById("statusDot");
+  const statusText = document.getElementById("statusText");
+  const statusHint = document.getElementById("statusHint");
+  const modeBadge = document.getElementById("modeBadge");
+  const connectBtn = document.getElementById("connectBtn");
+
+  const localReady = localConnected;
+  const mqttReady = connected && deviceOnline;
+
+  const activeReady =
+    selectedMode === "AP" ? localReady : mqttReady;
+
+  statusDot.classList.toggle("online", activeReady);
+
+  if (selectedMode === "AP") {
+
+    statusText.textContent = localChecking
+      ? (currentLanguage === "ar"
+          ? "جارٍ فحص الاتصال..."
+          : "Checking connection...")
+      : localReady
+        ? (currentLanguage === "ar"
+            ? "متصل محليًا بالمتحكم"
+            : "Locally connected")
+        : (currentLanguage === "ar"
+            ? "غير متصل محليًا"
+            : "Local connection offline");
+
+    statusHint.textContent = localChecking
+      ? (currentLanguage === "ar"
+          ? "جارٍ التأكد من وجود المتحكم على الشبكة"
+          : "Checking for the controller on the network")
+      : localReady
+        ? (currentLanguage === "ar"
+            ? "اتصال Wi-Fi مباشر"
+            : "Direct Wi-Fi connection")
+        : localAvailable
+          ? (currentLanguage === "ar"
+              ? "تم العثور على المتحكم. اضغط اتصال لإتمام الربط"
+              : "Controller found. Press Connect to finish")
+          : (currentLanguage === "ar"
+              ? "اتصل أولًا بشبكة CurtainController_01 من إعدادات الهاتف"
+              : "First join CurtainController_01 in phone Wi-Fi settings");
+
+    modeBadge.textContent =
+      localReady ? "LOCAL AP ONLINE" : "LOCAL AP OFFLINE";
+
+    connectBtn.textContent = localChecking
+      ? (currentLanguage === "ar"
+          ? "جارٍ فحص الشبكة المحلية..."
+          : "Checking local network...")
+      : localReady
+        ? (currentLanguage === "ar"
+            ? "فصل الاتصال"
+            : "Disconnect")
+        : localAvailable
+          ? (currentLanguage === "ar" ? "اتصال" : "Connect")
+          : (currentLanguage === "ar"
+              ? "فحص الاتصال بالشبكة المحلية"
+              : "Check local network");
+
+    connectBtn.disabled = localChecking;
+
+  } else if (mqttReady) {
+
+    statusText.textContent = t("deviceOnline");
+    statusHint.textContent = t("serverConnected");
+    modeBadge.textContent = "MQTT DEVICE ONLINE";
+    connectBtn.textContent = t("disconnect");
+
+  } else if (connected) {
+
+    statusText.textContent = t("offline");
+    statusHint.textContent = t("brokerOnly");
+    modeBadge.textContent = "MQTT CONNECTED";
+    connectBtn.textContent = t("disconnect");
+
+  } else {
+
+    statusText.textContent = t("offline");
+    statusHint.textContent = t("chooseConnection");
+    modeBadge.textContent = "OFFLINE";
+    connectBtn.textContent = t("connect");
+  }
+
+  updateLinkStatusIndicators();
+  updateControlButtons();
+}
+
+/* =========================================
+   9. ENABLE / DISABLE CONTROLS
+========================================= */
+
+function updateControlButtons() {
+
+  const enabled =
+    selectedMode === "AP"
+      ? localConnected
+      : (connected && deviceOnline);
+
+  ["openBtn", "closeBtn", "stopBtn"].forEach(id => {
+
+    const button = document.getElementById(id);
+
+    button.disabled = !enabled;
+
+    button.classList.toggle("disabled", !enabled);
+  });
+}
+
+/* =========================================
+   10. LOCAL WI-FI AP CONNECTION
+========================================= */
+
+async function checkLocalStatus(showFeedback = false) {
+  if (!DEVICE_ID) { localConnected = false; localAvailable = false; updateConnectionDisplay(); return; }
+
+  if (localStatusRequestInProgress) return;
+
+  localStatusRequestInProgress = true;
+
+  if (showFeedback) {
+    localChecking = true;
+    updateConnectionDisplay();
+  }
+
+  const controller = new AbortController();
+
+  const timeoutId = setTimeout(() => {
+    controller.abort();
+  }, 6000);
+
+  try {
+
+    const response = await fetch(
+      LOCAL_API + "/api/status",
+      {
+        method: "GET",
+        cache: "no-store",
+        signal: controller.signal
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("HTTP " + response.status);
+    }
+
+    const data = await response.json();
+
+    /*
+      تحقق من هوية المتحكم قبل اعتماد الاتصال.
+      يجب أن تتوافق أسماء الحقول مع استجابة firmware.
+    */
+
+    if (
+      data.device !== DEVICE_ID ||
+      data.local_wifi !== true
+    ) {
+      throw new Error("Unexpected device/status response");
+    }
+
+    localStatus = data;
+    localAvailable = true;
+
+    if (showFeedback) {
+      localConnected = false;
+
+      toast(
+        currentLanguage === "ar"
+          ? "تم العثور على المتحكم. اضغط اتصال لإتمام الاتصال"
+          : "Controller found. Press Connect to finish connecting"
+      );
+    }
+
+  } catch (error) {
+
+    localConnected = false;
+    localAvailable = false;
+    localStatus = null;
+
+    console.warn("Local ESP32 connection unavailable:", error);
+
+    if (showFeedback) {
+
+      let message;
+
+      if (error.name === "AbortError") {
+
+        message = currentLanguage === "ar"
+          ? "انتهت مهلة الاستجابة: لم يرد ESP32 خلال 6 ثوانٍ"
+          : "Timed out: ESP32 did not respond within 6 seconds";
+
+      } else if (error instanceof TypeError) {
+
+        message = currentLanguage === "ar"
+          ? "تعذر تنفيذ الطلب. تحقق من اتصال الهاتف بشبكة المتحكم"
+          : "Request failed. Check the phone's connection to the controller";
+
+      } else {
+
+        message =
+          (currentLanguage === "ar"
+            ? "فشل فحص الاتصال: "
+            : "Connection check failed: ") + error.message;
+      }
+
+      toast(message);
+    }
+
+  } finally {
+
+    clearTimeout(timeoutId);
+
+    localStatusRequestInProgress = false;
+
+    if (showFeedback) {
+      localChecking = false;
+    }
+
+    updateConnectionDisplay();
+  }
+}
+
+function startLocalPolling() {
+
+  stopLocalPolling();
+
+  localPollTimer = setInterval(() => {
+
+    if (!localCommandInProgress) {
+      checkLocalStatus(false);
+    }
+
+  }, 10000);
+}
+
+function stopLocalPolling() {
+
+  if (localPollTimer) {
+    clearInterval(localPollTimer);
+  }
+
+  localPollTimer = null;
+}
+
+async function sendLocalCommand(command) {
+
+  if (!localConnected || localCommandInProgress) {
+
+    if (!localConnected) {
+      toast(
+        currentLanguage === "ar"
+          ? "اتصل بشبكة ESP32 المحلية أولًا"
+          : "Connect to the ESP32 local Wi-Fi first"
+      );
+    }
+
+    return;
+  }
+
+  localCommandInProgress = true;
+  stopLocalPolling();
+
+  try {
+
+    const response = await fetch(
+      LOCAL_API + "/api/command?cmd=" +
+      encodeURIComponent(command),
+      {
+        method: "GET",
+        cache: "no-store"
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok || data.success !== true) {
+      throw new Error(data.message || "Command failed");
+    }
+
+    toast(
+      (currentLanguage === "ar"
+        ? "استقبل المتحكم الأمر: "
+        : "Controller received: ") + command
+    );
+
+  } catch (error) {
+
+    console.error("Local command error:", error);
+
+    toast(
+      currentLanguage === "ar"
+        ? "تعذر إرسال الأمر عبر الاتصال المحلي"
+        : "Could not send command locally"
+    );
+
+  } finally {
+
+    localCommandInProgress = false;
+
+    if (selectedMode === "AP" && localConnected) {
+      startLocalPolling();
+    }
+  }
+}
+
+/* =========================================
+   11. MQTT CONNECTION
+========================================= */
+
+function connectMQTT() {
+  if (!DEVICE_ID) { toast(t("noDeviceSelected")); return; }
+
+  if (selectedMode !== "MQTT") {
+    toast(t("modeUnavailable"));
+    return;
+  }
+
+  if (typeof mqtt === "undefined") {
+    toast(t("mqttLoadError"));
+    return;
+  }
+
+  if (connected) {
+    disconnectMQTT();
+    return;
+  }
+
+  toast(t("connectingToast"));
+
+  document.getElementById("statusHint").textContent =
+    t("connecting");
+
+  try {
+
+    mqttClient = mqtt.connect(
+      BROKER_URL,
+      MQTT_OPTIONS
+    );
+
+    mqttClient.on("connect", () => {
+
+      connected = true;
+      deviceOnline = false;
+
+      updateConnectionDisplay();
+
+      toast(t("mqttSuccess"));
+
+      mqttClient.subscribe(
+        STATUS_TOPIC,
+        { qos: 0 },
+        error => {
+          if (error) {
+            toast(t("subscribeFail"));
+          }
+        }
+      );
+    });
+
+    mqttClient.on("message", (topic, payload) => {
+
+      if (topic !== STATUS_TOPIC) return;
+
+      const message = payload.toString().trim();
+
+      if (message === "ONLINE") {
+
+        deviceOnline = true;
+        updateConnectionDisplay();
+
+        return;
+      }
+
+      if (message === "OFFLINE") {
+
+        deviceOnline = false;
+        updateConnectionDisplay();
+      }
+    });
+
+    mqttClient.on("error", error => {
+
+      console.error("MQTT error:", error);
+
+      toast(t("mqttError"));
+    });
+
+    mqttClient.on("close", () => {
+
+      connected = false;
+      deviceOnline = false;
+
+      updateConnectionDisplay();
+    });
+
+    mqttClient.on("offline", () => {
+
+      connected = false;
+      deviceOnline = false;
+
+      updateConnectionDisplay();
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    connected = false;
+    deviceOnline = false;
+
+    updateConnectionDisplay();
+
+    toast(t("mqttError"));
+  }
+}
+
+function disconnectMQTT() {
+
+  if (mqttClient) {
+
+    try {
+      mqttClient.end(true);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  mqttClient = null;
+  connected = false;
+  deviceOnline = false;
+
+  updateConnectionDisplay();
+
+  toast(t("serverOffline"));
+}
+
+/* =========================================
+   12. CONNECT BUTTON
+========================================= */
+
+document.getElementById("connectBtn").addEventListener("click", () => {
+
+  if (selectedMode === "AP") {
+
+    if (localChecking) return;
+
+    if (localConnected) {
+
+      localConnected = false;
+
+      stopLocalPolling();
+
+      updateConnectionDisplay();
+
+      toast(
+        currentLanguage === "ar"
+          ? "تم فصل الاتصال المحلي من الواجهة"
+          : "Local connection disconnected in the interface"
+      );
+
+    } else if (localAvailable) {
+
+      localConnected = true;
+
+      updateConnectionDisplay();
+
+      startLocalPolling();
+
+      toast(
+        currentLanguage === "ar"
+          ? "تم الاتصال بالمتحكم"
+          : "Controller connected"
+      );
+
+    } else {
+
+      checkLocalStatus(true);
+    }
+
+    return;
+  }
+
+  if (selectedMode === "MQTT") {
+
+    if (connected) {
+      disconnectMQTT();
+    } else {
+      connectMQTT();
+    }
+  }
+});
+
+/* =========================================
+   13. SEND COMMANDS
+========================================= */
+
+function sendCommand(command) {
+  if (!DEVICE_ID) { toast(t("noDeviceSelected")); return; }
+
+  if (selectedMode === "AP") {
+    sendLocalCommand(command);
+    return;
+  }
+
+  if (!connected || !deviceOnline || !mqttClient) {
+    toast(t("connectFirst"));
+    return;
+  }
+
+  try {
+
+    mqttClient.publish(
+      COMMAND_TOPIC,
+      command,
+      {
+        qos: 0,
+        retain: false
+      },
+      error => {
+
+        if (error) {
+          toast(t("sendFail"));
+          return;
+        }
+
+        toast(t("sent") + command);
+      }
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    toast(t("sendFail"));
+  }
+}
+
+document.getElementById("openBtn").addEventListener("click", () => {
+  sendCommand("OPEN");
+});
+
+document.getElementById("closeBtn").addEventListener("click", () => {
+  sendCommand("CLOSE");
+});
+
+document.getElementById("stopBtn").addEventListener("click", () => {
+  sendCommand("STOP");
+});
+
+/* =========================================
+   14. ABOUT PAGE
+========================================= */
+
+let previousPage = "home";
+
+function openAboutPage() {
+
+  const activePage = document.querySelector(".page.active");
+
+  if (activePage && activePage.id !== "page-about") {
+    previousPage = activePage.id.replace("page-", "");
+  }
+
+  document.querySelectorAll(".page").forEach(page => {
+    page.classList.remove("active");
+  });
+
+  document.querySelectorAll(".nav-btn").forEach(button => {
+    button.classList.remove("active");
+  });
+
+  document.getElementById("page-about").classList.add("active");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+document.getElementById("aboutBtn").addEventListener("click", () => {
+  openAboutPage();
+});
+
+/* =========================================
+   15. WI-FI SETTINGS
+========================================= */
+
+function showNetworkResult(message) {
+
+  const result = document.getElementById("networkResult");
+
+  if (result) {
+    result.textContent = message;
+  }
+}
+
+document.getElementById("showWifiPassword")
+  .addEventListener("change", event => {
+
+    document.getElementById("wifiPassword").type =
+      event.target.checked ? "text" : "password";
+  });
+
+document.getElementById("saveWifiBtn")
+  .addEventListener("click", async () => {
+
+    const ssid =
+      document.getElementById("wifiSSID").value.trim();
+
+    const password =
+      document.getElementById("wifiPassword").value;
+
+    if (!ssid) {
+      showNetworkResult(t("enterSSID"));
+      toast(t("enterSSID"));
+      return;
+    }
+
+    if (!localConnected) {
+      showNetworkResult(t("localConnectionRequired"));
+      toast(t("localConnectionRequired"));
+      return;
+    }
+
+    const button = document.getElementById("saveWifiBtn");
+
+    button.disabled = true;
+
+    showNetworkResult(
+      currentLanguage === "ar"
+        ? "جارٍ إرسال الإعدادات..."
+        : "Sending settings..."
+    );
+
+    try {
+
+      const body = new URLSearchParams();
+
+      body.append("ssid", ssid);
+      body.append("password", password);
+
+      const response = await fetch(
+        LOCAL_API + "/api/wifi",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          body: body.toString()
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("HTTP " + response.status);
+      }
+
+      const data = await response.json();
+
+      if (data.success !== true) {
+        throw new Error(data.message || "Wi-Fi request failed");
+      }
+
+      showNetworkResult(t("wifiSaved"));
+      toast(t("wifiSaved"));
+
+      // لا نعرض كلمة المرور أو نخزنها في نتيجة الطلب.
+
+    } catch (error) {
+
+      console.error("Wi-Fi settings error:", error);
+
+      showNetworkResult(t("wifiSaveFailed"));
+      toast(t("wifiSaveFailed"));
+
+    } finally {
+
+      button.disabled = false;
+    }
+  });
+
+/* =========================================
+   16. INTERNET ON / OFF
+========================================= */
+
+async function setInternet(enabled) {
+
+  if (!localConnected) {
+
+    showNetworkResult(t("localConnectionRequired"));
+    toast(t("localConnectionRequired"));
+
+    return;
+  }
+
+  const onButton = document.getElementById("internetOnBtn");
+  const offButton = document.getElementById("internetOffBtn");
+
+  onButton.disabled = true;
+  offButton.disabled = true;
+
+  try {
+
+    const body = new URLSearchParams();
+
+    body.append("enabled", enabled ? "on" : "off");
+
+    const response = await fetch(
+      LOCAL_API + "/api/internet",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: body.toString()
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("HTTP " + response.status);
+    }
+
+    const data = await response.json();
+
+    if (data.success !== true) {
+      throw new Error(data.message || "Internet request failed");
+    }
+
+    const message = enabled
+      ? t("internetEnabled")
+      : t("internetDisabled");
+
+    showNetworkResult(message);
+    toast(message);
+
+  } catch (error) {
+
+    console.error("Internet setting error:", error);
+
+    showNetworkResult(t("internetRequestFailed"));
+    toast(t("internetRequestFailed"));
+
+  } finally {
+
+    onButton.disabled = false;
+    offButton.disabled = false;
+  }
+}
+
+document.getElementById("internetOnBtn")
+  .addEventListener("click", () => {
+    setInternet(true);
+  });
+
+document.getElementById("internetOffBtn")
+  .addEventListener("click", () => {
+    setInternet(false);
+  });
+
+/* =========================================
+   17. INITIALIZATION
+========================================= */
+
+applyLanguage();
+
+applyTheme();
+
+// Device list is browser-local; a fresh browser profile starts empty.
+if (!devices.includes(DEVICE_ID)) DEVICE_ID = "";
+COMMAND_TOPIC = DEVICE_ID ? "curtain/" + DEVICE_ID + "/command" : "";
+STATUS_TOPIC = DEVICE_ID ? "curtain/" + DEVICE_ID + "/status" : "";
+renderDeviceManager();
+
+document.getElementById("addDeviceBtn").addEventListener("click", () => {
+  const input = document.getElementById("newDeviceId");
+  const id = input.value.trim();
+  const message = document.getElementById("deviceFormMessage");
+  if (!/^[A-Za-z0-9_-]{1,40}$/.test(id)) { message.textContent = t("invalidDeviceId"); return; }
+  if (devices.includes(id)) { message.textContent = t("duplicateDeviceId"); return; }
+  devices.push(id);
+  saveDeviceList();
+  input.value = "";
+  setActiveDevice(id);
+  message.textContent = t("deviceAdded");
+});
+
+document.getElementById("deviceSelect").addEventListener("change", event => setActiveDevice(event.target.value));
+document.getElementById("removeDeviceBtn").addEventListener("click", () => {
+  if (!DEVICE_ID) return;
+  devices = devices.filter(id => id !== DEVICE_ID);
+  saveDeviceList();
+  setActiveDevice(devices[0] || "");
+  document.getElementById("deviceFormMessage").textContent = t("deviceRemoved");
+});
+
+selectMode("MQTT");
+
+updateConnectionDisplay();
+
+openPage("home");
+
+</script>
+
+</body>
+</html>
